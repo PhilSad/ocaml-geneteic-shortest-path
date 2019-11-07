@@ -9,16 +9,3 @@ n 261 297
 n 401 394
 n 535 294    % This is node #5.
 
-
-%% Edges
-
-e 3 1 11     % An edge from 3 to 1, labeled "11".
-e 3 2 2
-e 1 5 21
-e 4 5 14
-e 1 4 1
-e 0 1 7
-e 0 3 10
-e 3 4 5
-e 2 4 12
-e 0 2 8

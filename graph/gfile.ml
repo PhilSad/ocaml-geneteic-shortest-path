@@ -37,10 +37,10 @@ let write_file path graph =
   
   close_out ff ;
   ()
-
+ 
 (* Reads a line with a node. *)
 let read_node id graph line =
-  try Scanf.sscanf line "n %f %f" (fun _ _ -> new_node graph id)
+  try Scanf.sscanf line "n %f %f" (fun x y -> new_node graph id x y)
   with e ->
     Printf.printf "Cannot read node in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
     failwith "from_file"

@@ -15,7 +15,7 @@ val empty_graph: 'a graph
 
 (* Add a new node with the given identifier.
  * @raise Graph_error if the id already exists. *)
-val new_node: 'a graph -> id -> 'a graph
+val new_node: 'a graph -> id  -> int -> int -> 'a graph
 
 (* add_arc gr id1 id2 lbl  : adds an arc from node id1 to node id2 with label lbl
  * If an arc already exists between id1 and id2, its label is replaced by lbl. 

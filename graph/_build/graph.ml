@@ -3,7 +3,7 @@ type id = int
 type 'a out_arcs = (id * 'a) list
 
 (* A graph is just a list of pairs: a node & its outgoing arcs. *)
-type 'a graph = (id * 'a out_arcs) list
+type 'a graph = (id * int*int *'a out_arcs) list
 
 exception Graph_error of string
 
@@ -20,9 +20,9 @@ let find_arc gr id1 id2 =
   try Some (List.assoc id2 out)
   with Not_found -> None
 
-let new_node gr id =
+let new_node gr id x y =
   if node_exists gr id then raise (Graph_error ("Node " ^ string_of_int id ^ " already exists in the graph."))
-  else (id, []) :: gr
+  else (id, x, y, []) :: gr
 
 let new_arc gr id1 id2 lbl =
 
