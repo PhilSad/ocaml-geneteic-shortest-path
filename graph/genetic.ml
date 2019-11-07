@@ -26,16 +26,25 @@ let rec n_random_path gr n = match n with
 ;;
 n_random_path graph 5;;
 
-2.**3.;;
+Float.sub 2.5 1.5;;
 
 sqrt 9.**2;;
 
 (* Fitness function *)
 
-let rec fitness gr = match gr with
-  | [] -> 0
-  | _, (x1, y1) :: rest -> 
-      let _, x2, y2 = List.hd gr in
-      let dist_to_next = sqrt (x2 - x1)
+let rec fitness (gr:Graph2.graph) = match gr with
+  | [] -> 0.
+  | [n] -> 0. 
+  | (_, (x1, y1)) :: rest -> 
+      let _, (x2, y2) = List.hd rest in
+      let dist_to_next = sqrt ( (Float.add ((Float.sub x2 x1)**2.)  ( (Float.sub y2  y1)**2. ) )  ) in
+        Printf.printf "%f %f %f %f\n" x1 y1 x2 y2;
+        Float.add dist_to_next (fitness rest)
 
+let p = random_path graph;;
 
+fitness p;;
+
+p;;
+
+print_string "aaa"
