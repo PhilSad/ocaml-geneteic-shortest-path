@@ -1,12 +1,2 @@
 ### Starting build.
-# Target: graph.mli.depends, tags: { extension:mli, file:graph.mli, ocaml, ocamldep, quiet }
-/home/commetud/GEI/OCaml/.opam/4.08.1/bin/ocamldep.opt -modules graph.mli > graph.mli.depends # cached
-# Target: graph.cmi, tags: { byte, compile, extension:mli, file:graph.mli, interf, ocaml, quiet }
-/home/commetud/GEI/OCaml/.opam/4.08.1/bin/ocamlc.opt -c -o graph.cmi graph.mli # cached
-# Target: graph.ml.depends, tags: { extension:ml, file:graph.ml, ocaml, ocamldep, quiet }
-/home/commetud/GEI/OCaml/.opam/4.08.1/bin/ocamldep.opt -modules graph.ml > graph.ml.depends # cached
-# Target: graph.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:graph.cmo, file:graph.ml, implem, ocaml, quiet }
-/home/commetud/GEI/OCaml/.opam/4.08.1/bin/ocamlc.opt -c -o graph.cmo graph.ml # cached
-# Target: graph.byte, tags: { byte, dont_link_with, extension:byte, file:graph.byte, link, ocaml, program, quiet }
-/home/commetud/GEI/OCaml/.opam/4.08.1/bin/ocamlc.opt graph.cmo -o graph.byte
-# Compilation successful.
+# Compilation unsuccessful.
