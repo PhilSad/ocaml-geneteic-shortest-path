@@ -29,3 +29,12 @@ let rec get_nodes gr = match gr with
 let rec get_node_pos gr id = match gr with
     | [] -> failwith "Error get_node_pos : node non trouvé"
     | x :: rest -> if fst x = id then snd else get_node_pos rest id
+
+
+let rec distance_tot gr = match gr with
+    | [] -> 0.
+    | [n] -> 0. 
+    | (_, (x1, y1)) :: rest -> 
+        let _, (x2, y2) = List.hd rest in
+        let dist_to_next = sqrt ( (Float.add ((Float.sub x2 x1)**2.)  ( (Float.sub y2  y1)**2. ) )  ) in
+        div 1. (add dist_to_next (fitness rest) )
