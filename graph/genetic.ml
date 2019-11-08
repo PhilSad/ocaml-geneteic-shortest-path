@@ -198,18 +198,24 @@ let swap l a b  =
     swp l a b 0
 ;;
 let a = [10;20;30;40;50;60;70];;
-swap a 2 5;; 
+swap a 2 2;; 
 
 
 
-let rec mutate pop tx = match pop with
+
+(* A tester *)
+let rec mutate_pop pop tx = match pop with
   | [] -> []
   | p :: rest ->
+      let gamma = Random.int 101 in
+      let len = List.length p.chem in
+        if gamma < tx then 
+          let chem = swap p.chem (Random.int len) (Random.int len) in
 
-      let swap
+            {p with chem = chem}:: mutate_pop rest tx
+        else
+          p :: mutate_pop rest tx;;
 
-let gamma = Random.int 101 in
-  if gamm
 
 
 
