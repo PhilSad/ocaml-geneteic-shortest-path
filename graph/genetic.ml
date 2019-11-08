@@ -212,9 +212,37 @@ let rec mutate_pop pop tx = match pop with
         if gamma < tx then 
           let chem = swap p.chem (Random.int len) (Random.int len) in
 
-            {p with chem = chem}:: mutate_pop rest tx
+            {chem = chem; fit = fitness chem} :: mutate_pop rest tx
+
         else
           p :: mutate_pop rest tx;;
+
+
+graph;;
+
+let genetic_algo nb_pop tx_elitisme tx_iradiation nb_generation =
+  let population = graphs_to_indivs (n_random_path graph nb_pop) in
+
+  let rec loop population gen_rest = match gen_rest with
+    | 0 -> 
+    | n ->
+        let survivants = selection population tx_elitisme in
+        let next_pop   = cross_over survivants in
+        let mutations  = mutate_pop next_pop tx_iradiation in
+
+          loop mutations (gen_rest - 1)
+  in
+    1+1;;
+
+
+
+
+
+
+
+
+
+
 
 
 
