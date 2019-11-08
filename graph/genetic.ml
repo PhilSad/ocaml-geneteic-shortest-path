@@ -56,7 +56,7 @@ let pop = n_random_path graph 100;;
 
 graphs_to_indivs pop;;
 
-graph_to_indiv graph;;
+graph_to_indivs pop;;
 
 div 2.0  5.6;;
 
@@ -123,8 +123,8 @@ selection pop 0.;;
 
 
 
-
-
+let a,b = 1,2;;
+let a,b = b,a;;
 
 (* CROSSOVER *)
 
@@ -134,12 +134,61 @@ let shuffle l =
   let sorted_rand = List.sort (fun a b -> fst a - fst b)  rand in
     List.map snd sorted_rand;;
 
-let a = [1;2;3;4;5;6;7];;
+let a = ['a';'b';'c'];;
 shuffle a;;
 
 
-let rec cross_over pop =  
+let get_slice l i_from i_to = 
+  let rec take l n = match l with  
+    | [] -> []
+    | e :: rest -> if n = 0 then [] else e :: take rest (n-1) 
+  in
 
+  let rec drop l n = match l with
+    | [] -> []
+    | e :: rest -> if n = 0 then e :: rest else drop rest (n-1) 
+  in
+    take (drop l i_from ) (i_to - i_from) ;;
+
+
+get_slice a 0 2;;
+
+;;
+
+let rec cross_over pop =  
+  let rand_pop = shuffle pop in
+    match rand_pop with
+      | []  -> []
+      | [x] -> [x]
+      | p1 :: p2 :: rest ->
+
+          let pick_cuts () = 
+            let r1 = Random.int (List.length p1.chem) in
+            let r2 = Random.int (List.length p1.chem) in
+              if r1 > r2 then r2,r1 else r1,r2
+          in
+
+          let cut1, cut2 = pick_cuts () in
+          let new_chem1 = (get_slice p1.chem 0 cut1) @ (get_slice p2.chem cut1 cut2) @ (get_slice p1.chem cut2 (List.length p1.chem) ) in
+          let new_chem2 = (get_slice p2.chem 0 cut1) @ (get_slice p1.chem cut1 cut2) @ (get_slice p2.chem cut2 (List.length p1.chem) ) in
+
+          let enfant1 = {chem = new_chem1; fit = fitness new_chem1} in
+          let enfant2 = {chem = new_chem2; fit = fitness new_chem2} in
+
+            enfant1 :: enfant2 :: cross_over rest;;
+;;
+
+
+
+
+let pop = [{chem = ([1;2;3;4;5;6;7;8]; fit = 10};{chem = [10;20;30;40;50;60;70;80]; fit = 10}]
+
+let p1 = List.hd pop;;
+
+get_slice p1.chem 0 cut1
+
+
+let enfant1 = List.append (get_slice p1 0
 
 
 
