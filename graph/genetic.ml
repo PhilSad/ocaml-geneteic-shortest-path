@@ -4,9 +4,6 @@ let i,pos = List.nth graph 2;;
 
 Random.int (List.length graph);;
 
-
-
-
 (* Generation de la population initiale *)
 
 let rec random_path (gr:Graph2.graph) = match gr with
@@ -26,9 +23,6 @@ let rec n_random_path gr n = match n with
 ;;
 n_random_path graph 5;;
 
-Float.sub 2.5 1.5;;
-
-sqrt 9.**2;;
 
 (* Fitness function = distance entre les noeuds de la liste*)
 
