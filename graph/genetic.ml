@@ -181,6 +181,42 @@ let rec cross_over pop =
 
 
 
+
+(* MUTATION swap *)
+
+
+let swap l a b  = 
+  let va = List.nth l a in
+  let vb = List.nth l b in
+  let rec swp l a b i = match l with
+    | [] -> []
+    | x :: rest ->
+        if i == a then vb :: swp rest a b (i+1)
+        else if  i == b then va:: swp rest a b (i+1) 
+        else x :: swp rest a b (i+1)
+  in
+    swp l a b 0
+;;
+let a = [10;20;30;40;50;60;70];;
+swap a 2 5;; 
+
+
+
+let rec mutate pop tx = match pop with
+  | [] -> []
+  | p :: rest ->
+
+      let swap
+
+let gamma = Random.int 101 in
+  if gamm
+
+
+
+
+
+
+
 let pop = [{chem = ([1;2;3;4;5;6;7;8]; fit = 10};{chem = [10;20;30;40;50;60;70;80]; fit = 10}]
 
 let p1 = List.hd pop;;
