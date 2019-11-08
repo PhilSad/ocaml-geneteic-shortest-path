@@ -1,3 +1,5 @@
+open Graph2;;
+
 let graph = Gfile2.from_file "graph1";;
 
 let i,pos = List.nth graph 2;;
@@ -6,15 +8,20 @@ Random.int (List.length graph);;
 
 (* Generation de la population initiale *)
 
-let rec random_path (gr:Graph2.graph) = match gr with
-  | [] -> []
-  | gr ->
-      (* On pioche un élément random de la liste qu'on met au début du chemin généré *)
-      let i_rem = Random.int (List.length gr) in
-      let id,pos = List.nth gr i_rem in
-      let graph_rem = List.remove_assoc id gr in
-        (id,pos) :: random_path graph_rem
-;;
+
+let shuffle l =
+  let rand = List.map (fun e -> (Random.bits (), e ) ) l in
+  let sorted_rand = List.sort (fun a b -> fst a - fst b)  rand in
+    List.map snd sorted_rand;;
+
+let a = ['a';'b';'c'];;
+shuffle a;;
+
+
+let random_path (gr:Graph2.graph) =
+  let nodes = get_nodes gr in
+    shuffle nodes;;
+
 random_path graph;;
 
 let rec n_random_path gr n = match n with
@@ -122,13 +129,6 @@ let a,b = b,a;;
 (* CROSSOVER *)
 
 
-let shuffle l =
-  let rand = List.map (fun e -> (Random.bits (), e ) ) l in
-  let sorted_rand = List.sort (fun a b -> fst a - fst b)  rand in
-    List.map snd sorted_rand;;
-
-let a = ['a';'b';'c'];;
-shuffle a;;
 
 
 let get_slice l i_from i_to = 

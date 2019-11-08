@@ -1,12 +1,12 @@
 ### Starting build.
 # Target: graph2.mli.depends, tags: { extension:mli, file:graph2.mli, ocaml, ocamldep, quiet }
-/usr/bin/ocamldep.opt -modules graph2.mli > graph2.mli.depends # cached
+/home/phil/.opam/default/bin/ocamldep.opt -modules graph2.mli > graph2.mli.depends
 # Target: graph2.cmi, tags: { byte, compile, extension:mli, file:graph2.mli, interf, ocaml, quiet }
-/usr/bin/ocamlc.opt -c -o graph2.cmi graph2.mli # cached
+/home/phil/.opam/default/bin/ocamlc.opt -c -o graph2.cmi graph2.mli
 # Target: graph2.ml.depends, tags: { extension:ml, file:graph2.ml, ocaml, ocamldep, quiet }
-/usr/bin/ocamldep.opt -modules graph2.ml > graph2.ml.depends # cached
+/home/phil/.opam/default/bin/ocamldep.opt -modules graph2.ml > graph2.ml.depends
 # Target: graph2.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:graph2.cmo, file:graph2.ml, implem, ocaml, quiet }
-/usr/bin/ocamlc.opt -c -o graph2.cmo graph2.ml # cached
+/home/phil/.opam/default/bin/ocamlc.opt -c -o graph2.cmo graph2.ml
 # Target: graph2.byte, tags: { byte, dont_link_with, extension:byte, file:graph2.byte, link, ocaml, program, quiet }
-/usr/bin/ocamlc.opt graph2.cmo -o graph2.byte # cached
+/home/phil/.opam/default/bin/ocamlc.opt graph2.cmo -o graph2.byte
 # Compilation successful.
