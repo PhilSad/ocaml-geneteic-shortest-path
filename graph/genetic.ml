@@ -38,8 +38,7 @@ let rec fitness (gr:Graph2.graph) = match gr with
   | (_, (x1, y1)) :: rest -> 
       let _, (x2, y2) = List.hd rest in
       let dist_to_next = sqrt ( (Float.add ((Float.sub x2 x1)**2.)  ( (Float.sub y2  y1)**2. ) )  ) in
-        Printf.printf "%f %f %f %f\n" x1 y1 x2 y2;
-        Float.add dist_to_next (fitness rest)
+        div 1. (add dist_to_next (fitness rest) )
 
 let p = random_path graph;;
 
@@ -49,7 +48,7 @@ graph;;
 
 type individu = {chem : Graph2.graph; fit : float};;
 
-let graph_to_indiv gr = {chem = gr; fit = div 1. (fitness gr)};; 
+let graph_to_indiv gr = {chem = gr; fit =  (fitness gr)};; 
 let rec graphs_to_indivs pop = List.map graph_to_indiv pop;;
 
 let pop = n_random_path graph 100;;
@@ -88,13 +87,13 @@ let selection pop perct_elit=
     | 0 -> []
     | nb ->
 
-        let rand = float_of_int (Random.int 101) in
+        let rand = float_of_int (Random.int 100) in
         let tot_fitness = List.fold_left (fun acc indiv -> add indiv.fit acc) 0. pop in
         let roul = div (mul rand tot_fitness) 100.  in
         let rec find_gagnant ranked_pop roul sumacc = match ranked_pop with
-          | [] -> failwith "impossible de trouver un gagnant"
+          | [] -> failwith "impossible de trouver un gagnant "
           | {chem = c ; fit = f} :: rest ->
-              print_list ranked_pop;
+
               if add sumacc f < roul 
               then find_gagnant rest roul (add sumacc f )
               else 
@@ -105,7 +104,7 @@ let selection pop perct_elit=
   in
 
   let nb_elits = perc_to_nb (List.length pop) perct_elit in
-  let nb_roulette = int_of_float (div (float_of_int (List.length pop)) 2. ) - nb_elits in
+  let nb_roulette = List.length pop - nb_elits in
 
   let elits = get_elits ranked_pop nb_elits in
   let gagnants = get_roulette ranked_pop nb_roulette in
@@ -117,7 +116,7 @@ let rec print_list = function
   | [] -> Printf.printf "\n%!"
   | {chem = c ; fit = f} :: rest -> Printf.printf "%f |" f ; print_list rest;;
 
-let pop = [{chem = []; fit = 3.};{chem = []; fit = 1.};{chem = []; fit = 2.};{chem = []; fit = 1.};{chem = []; fit = 1.};{chem = []; fit = 1.};{chem = []; fit = 1.};{chem = []; fit = 1.}];;
+let pop = [{chem = []; fit = 3.};{chem = []; fit = 10.};{chem = []; fit = 2.};{chem = []; fit = 1.};{chem = []; fit = 1.};{chem = []; fit = 1.};{chem = []; fit = 1.};{chem = []; fit = 1.}];;
 print_list  pop;;
 selection pop 0.;;
 
@@ -220,20 +219,43 @@ let rec mutate_pop pop tx = match pop with
 
 graph;;
 
+
+
+
+
+
+
+
+
+
+
+let mean_fitness pop =
+  let rec sum l = match l with 
+    | [] -> 0.
+    | p :: rest -> add p.fit (sum rest)
+  in
+    div (sum pop) (float_of_int (List.length pop));;
+
+
+
+
+
 let genetic_algo nb_pop tx_elitisme tx_iradiation nb_generation =
   let population = graphs_to_indivs (n_random_path graph nb_pop) in
 
   let rec loop population gen_rest = match gen_rest with
-    | 0 -> 
+    | 0 -> population
     | n ->
         let survivants = selection population tx_elitisme in
         let next_pop   = cross_over survivants in
         let mutations  = mutate_pop next_pop tx_iradiation in
-
-          loop mutations (gen_rest - 1)
+          Printf.printf "Generation %d fitness moyen : %f nb_pop : %d\n" nb_generation (mean_fitness mutations) (List.length survivants);
+          loop mutations (gen_rest - 1) 
   in
-    1+1;;
+    loop population nb_generation;;
 
+
+genetic_algo 100 10. 5 10;;
 
 
 
