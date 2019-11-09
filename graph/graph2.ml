@@ -1,3 +1,5 @@
+open Float
+
 type id = int;;
 
 type pos = float * float;;
@@ -5,7 +7,6 @@ type pos = float * float;;
 type graph = (id * pos) list;;
 
 exception Graph_error of string
-
 
 
 let empty_graph = [];;
@@ -37,4 +38,4 @@ let rec distance_tot gr = match gr with
     | (_, (x1, y1)) :: rest -> 
         let _, (x2, y2) = List.hd rest in
         let dist_to_next = sqrt ( (Float.add ((Float.sub x2 x1)**2.)  ( (Float.sub y2  y1)**2. ) )  ) in
-        div 1. (add dist_to_next (fitness rest) )
+        Float.div 1. (add dist_to_next (distance_tot rest) )

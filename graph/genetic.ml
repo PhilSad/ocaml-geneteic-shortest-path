@@ -1,4 +1,5 @@
-open Graph2;;
+
+open Float;;
 
 let graph = Gfile2.from_file "graph1";;
 
@@ -64,7 +65,7 @@ div 2.0  5.6;;
 let nb_elits = int_of_float (div (mul 49. (float_of_int (List.length pop))) 100. ) 
 
 
-open Float;;
+
 
 (* SELECTION : roullette wheel + elitisme *)
 
