@@ -3,6 +3,8 @@ open Float;;
 open Graph2;;
 let graph = Gfile2.from_file "graph1";;
 
+type path = Graph2.id list;;
+
 let i,pos = List.nth graph 2;;
 
 Random.int (List.length graph);;
@@ -45,23 +47,15 @@ graph;;
 
 distance_tot graph p;;
 
-type individu = {chem : Graph2.graph; fit : float};;
+type individu = {chem : path; fit : float};;
 
-let graph_to_indiv gr = {chem = gr; fit =  (fitness gr)};; 
-let rec graphs_to_indivs pop = List.map graph_to_indiv pop;;
+
+let path_to_indiv gr path  = {chem = path; fit =  (fitness gr path)};; 
+let rec paths_to_indivs gr pop = List.map (path_to_indiv gr) pop  ;;
 
 let pop = n_random_path graph 100;;
 
-graphs_to_indivs pop;;
-
-graph_to_indivs pop;;
-
-div 2.0  5.6;;
-
-
-let nb_elits = int_of_float (div (mul 49. (float_of_int (List.length pop))) 100. ) 
-
-
+paths_to_indivs graph pop;;
 
 
 (* SELECTION : roullette wheel + elitisme *)
@@ -146,7 +140,45 @@ get_slice a 0 2;;
 
 ;;
 
-let rec cross_over pop =  
+
+let sanitize_child gr child =
+  (* - Parser le chemin et mettre -1 si un item apparait plus d'une fois
+     - Récupérer les id qui ne sont pas dans le child puis shuffle
+     - pour chaque -1 de la liste mettre le premier de la liste ^*)
+  let rec signal_duplicates path = match path with
+    | [] -> []
+    | x :: rest ->
+        (if List.exists (fun o -> x == o) rest then -1
+         else x)
+        :: signal_duplicates rest
+  in
+
+  let rec not_in l1 l2 = match l1 with
+    | [] -> []
+    | x :: rest ->
+
+        let pred = fun o -> not (List.exists (fun a-> o == a) l2) in
+          List.filter pred l1
+  in
+
+  let dups = signal_duplicates child in
+
+  let others = shuffle (not_in (get_nodes gr) dups) in
+
+  let rec replace_dup dup others = match (dup, others) with
+    | [], _ -> []
+    | -1 :: rest, hd :: tl -> hd :: replace_dup rest tl
+    | x :: rest, _ -> x :: replace_dup rest others
+  in 
+
+    replace_dup dups others
+;;
+
+sanitize_child graph [1;1;2;2;3];;
+
+get_nodes graph;;
+
+let rec cross_over gr pop =  
   let rand_pop = shuffle pop in
     match rand_pop with
       | []  -> []
@@ -163,10 +195,14 @@ let rec cross_over pop =
           let new_chem1 = (get_slice p1.chem 0 cut1) @ (get_slice p2.chem cut1 cut2) @ (get_slice p1.chem cut2 (List.length p1.chem) ) in
           let new_chem2 = (get_slice p2.chem 0 cut1) @ (get_slice p1.chem cut1 cut2) @ (get_slice p2.chem cut2 (List.length p1.chem) ) in
 
-          let enfant1 = {chem = new_chem1; fit = fitness new_chem1} in
-          let enfant2 = {chem = new_chem2; fit = fitness new_chem2} in
+          let san_chem1 = sanitize_child gr new_chem1 in
+          let san_chem2 = sanitize_child gr new_chem2 in
 
-            enfant1 :: enfant2 :: cross_over rest;;
+
+          let enfant1 = {chem =  san_chem1; fit = fitness gr san_chem1} in
+          let enfant2 = {chem =  san_chem2; fit = fitness gr san_chem2} in
+
+            enfant1 :: enfant2 :: cross_over gr rest;;
 ;;
 
 
@@ -195,7 +231,7 @@ swap a 2 2;;
 
 
 (* A tester *)
-let rec mutate_pop pop tx = match pop with
+let rec mutate_pop gr pop tx = match pop with
   | [] -> []
   | p :: rest ->
       let gamma = Random.int 101 in
@@ -203,10 +239,10 @@ let rec mutate_pop pop tx = match pop with
         if gamma < tx then 
           let chem = swap p.chem (Random.int len) (Random.int len) in
 
-            {chem = chem; fit = fitness chem} :: mutate_pop rest tx
+            {chem = chem; fit = fitness gr chem} :: mutate_pop gr rest tx
 
         else
-          p :: mutate_pop rest tx;;
+          p :: mutate_pop gr rest tx;;
 
 
 graph;;
@@ -233,21 +269,21 @@ let mean_fitness pop =
 
 
 let genetic_algo nb_pop tx_elitisme tx_iradiation nb_generation =
-  let population = graphs_to_indivs (n_random_path graph nb_pop) in
+  let population = paths_to_indivs graph (n_random_path graph nb_pop) in
 
   let rec loop population gen_rest = match gen_rest with
     | 0 -> population
     | n ->
         let survivants = selection population tx_elitisme in
-        let next_pop   = cross_over survivants in
-        let mutations  = mutate_pop next_pop tx_iradiation in
+        let next_pop   = cross_over graph survivants in
+        let mutations  = mutate_pop graph next_pop tx_iradiation in
           Printf.printf "Generation %d fitness moyen : %f nb_pop : %d\n" nb_generation (mean_fitness mutations) (List.length survivants);
           loop mutations (gen_rest - 1) 
   in
     loop population nb_generation;;
 
 
-genetic_algo 100 10. 5 10;;
+genetic_algo 100 10. 5 100;;
 
 
 
