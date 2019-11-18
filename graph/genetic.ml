@@ -34,9 +34,9 @@ n_random_path graph 5;;
 
 (* Fitness function = distance entre les noeuds de la liste*)
 
-let rec fitness gr = div 1.(Graph2.distance_tot gr);;
+let rec fitness gr path = div 1.(Graph2.distance_tot gr path);;
 
-fitness (random_path graph);;
+fitness graph (random_path graph);;
 
 let p = random_path graph;;
 
