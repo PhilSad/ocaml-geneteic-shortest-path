@@ -32,10 +32,12 @@ let rec get_node_pos gr id = match gr with
     | x :: rest -> if fst x = id then snd else get_node_pos rest id
 
 
-let rec distance_tot gr = match gr with
+let rec distance_tot gr path = match path with
     | [] -> 0.
     | [n] -> 0. 
-    | (_, (x1, y1)) :: rest -> 
-        let _, (x2, y2) = List.hd rest in
+    | id1 :: rest -> 
+        let id2 = List.hd rest in
+        let x1, y1 = node_pos gr id1 in
+        let x2, y2 = node_pos gr id2 in
         let dist_to_next = sqrt ( (Float.add ((Float.sub x2 x1)**2.)  ( (Float.sub y2  y1)**2. ) )  ) in
-        Float.div 1. (add dist_to_next (distance_tot rest) )
+        (add dist_to_next (distance_tot gr rest) )

@@ -1,8 +1,8 @@
-open Graph
+open Graph2
 
 let clone_nodes gr = List.map (fun (a,b) -> (a, []) ) gr
 
-let rec gmap gr f = match gr with
-    | [] -> []
-    | noeud, outs :: rest -> (noeud, List.map f outs) :: gmap rest f
-
+let shuffle l =
+  let rand = List.map (fun e -> (Random.bits (), e ) ) l in
+  let sorted_rand = List.sort (fun a b -> fst a - fst b)  rand in
+    List.map snd sorted_rand;;

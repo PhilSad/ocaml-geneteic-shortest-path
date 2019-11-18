@@ -1,6 +1,6 @@
 
 open Float;;
-
+open Graph2;;
 let graph = Gfile2.from_file "graph1";;
 
 let i,pos = List.nth graph 2;;
@@ -34,19 +34,16 @@ n_random_path graph 5;;
 
 (* Fitness function = distance entre les noeuds de la liste*)
 
-let rec fitness (gr:Graph2.graph) = match gr with
-  | [] -> 0.
-  | [n] -> 0. 
-  | (_, (x1, y1)) :: rest -> 
-      let _, (x2, y2) = List.hd rest in
-      let dist_to_next = sqrt ( (Float.add ((Float.sub x2 x1)**2.)  ( (Float.sub y2  y1)**2. ) )  ) in
-        div 1. (add dist_to_next (fitness rest) )
+let rec fitness gr = div 1.(Graph2.distance_tot gr);;
+
+fitness (random_path graph);;
 
 let p = random_path graph;;
 
 fitness p;;
 graph;;
 
+distance_tot graph p;;
 
 type individu = {chem : Graph2.graph; fit : float};;
 
