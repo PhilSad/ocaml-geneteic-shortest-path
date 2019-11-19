@@ -1,7 +1,7 @@
 
 open Float;;
 open Graph2;;
-let graph = Gfile2.from_file "graph1";;
+let graph = Gfile2.from_file "graph2";;
 
 type path = Graph2.id list;;
 
@@ -277,13 +277,13 @@ let genetic_algo nb_pop tx_elitisme tx_iradiation nb_generation =
         let survivants = selection population tx_elitisme in
         let next_pop   = cross_over graph survivants in
         let mutations  = mutate_pop graph next_pop tx_iradiation in
-          Printf.printf "Generation %d fitness moyen : %f nb_pop : %d\n" nb_generation (mean_fitness mutations) (List.length survivants);
+          Printf.printf "Generation %d fitness moyen : %f nb_pop : %d\n" gen_rest (mean_fitness mutations) (List.length survivants);
           loop mutations (gen_rest - 1) 
   in
     loop population nb_generation;;
 
 
-genetic_algo 100 10. 5 100;;
+genetic_algo 200 10. 5 1000;;
 
 
 
