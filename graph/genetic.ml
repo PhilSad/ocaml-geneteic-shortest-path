@@ -277,13 +277,14 @@ let genetic_algo nb_pop tx_elitisme tx_iradiation nb_generation =
         let survivants = selection population tx_elitisme in
         let next_pop   = cross_over graph survivants in
         let mutations  = mutate_pop graph next_pop tx_iradiation in
-          Printf.printf "Generation %d fitness moyen : %f nb_pop : %d\n" gen_rest (mean_fitness mutations) (List.length survivants);
+        let m_fit = mean_fitness mutations in
+          Printf.printf "Generation %d fitness moyen : %f distance : %f\n" (nb_generation - gen_rest) (m_fit) (div 1. m_fit);
           loop mutations (gen_rest - 1) 
   in
     loop population nb_generation;;
 
 
-genetic_algo 200 10. 5 1000;;
+genetic_algo 6000 10. 10 100;;
 
 
 

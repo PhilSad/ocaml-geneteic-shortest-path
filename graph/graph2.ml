@@ -41,3 +41,7 @@ let rec distance_tot gr path = match path with
         let x2, y2 = node_pos gr id2 in
         let dist_to_next = sqrt ( (Float.add ((Float.sub x2 x1)**2.)  ( (Float.sub y2  y1)**2. ) )  ) in
         (add dist_to_next (distance_tot gr rest) )
+
+let get_nb_nodes gr = List.length gr
+
+

@@ -1,6 +1,6 @@
-open Gfile
-open Graph
+open Algogen;;
+open Gfile2;;
 
-let g = from_file "./graph1"
+let graph = from_file "graph2";;
 
-if 1=1 then Printf.printf "ok"
+genetic_algo graph 10 10. 5 10;;

@@ -1,4 +1,4 @@
 #mod_use "graph2.ml"
 #mod_use "gfile2.ml"
-open Graph
-open Gfile
+#mod_use "tools.ml"
+#mod_use "algogen.ml"

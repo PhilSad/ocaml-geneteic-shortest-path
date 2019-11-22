@@ -14,3 +14,9 @@ val empty_graph: graph
 (* Find the out_arcs of a node.
  * @raise Graph_error if the id is unknown in the graph. *)
 val node_pos:  graph -> id -> pos
+
+val get_nodes: graph -> id list
+
+val distance_tot: graph -> int list -> float
+
+val get_nb_nodes: graph -> int
