@@ -1,16 +1,16 @@
 open Float
 open Tools
-open Graph2
+(*open Graph2*)
 
 let random_path (gr:Graph2.graph) =
-  let nodes = get_nodes gr in
+  let nodes = Graph2.get_nodes gr in
     shuffle nodes
 
 let rec n_random_path gr n = match n with
   | 0 -> []
   | n -> random_path gr :: n_random_path gr (n-1) 
 
-let rec fitness gr path = div 1.(distance_tot gr path)
+let rec fitness gr path = div 1.(Graph2.distance_tot gr path)
 
 type individu = {chem : int list; fit : float}
 
@@ -90,7 +90,7 @@ let sanitize_child gr child =
 
   let dups = signal_duplicates child in
 
-  let others = shuffle (not_in (get_nodes gr) dups) in
+  let others = shuffle (not_in (Graph2.get_nodes gr) dups) in
 
   let rec replace_dup dup others = match (dup, others) with
     | [], _ -> []
@@ -110,7 +110,7 @@ let rec cross_over gr pop =
 
   let pick_cuts () = 
 
-    let nb = get_nb_nodes gr in
+    let nb = Graph2.get_nb_nodes gr in
     let r1 = Random.int nb in
     let r2 = Random.int nb in
     if r1 > r2 then r2,r1 else r1,r2
@@ -134,7 +134,7 @@ let rec mutate_pop gr pop tx = match pop with
   | [] -> []
   | p :: rest ->
     let gamma = Random.int 101 in
-    let len = get_nb_nodes gr in
+    let len = Graph2.get_nb_nodes gr in
     if gamma < tx then 
     let chem = swap p.chem (Random.int len) (Random.int len) in
 
