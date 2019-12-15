@@ -2,9 +2,11 @@
 
 ## Compilation
 
-cd graph/source
-ocamlbuild graph2.byte gfile2.byte tools.byte algogen.byte test.byte
-./test.byte
+    cd graph/source
+
+    ocamlbuild graph2.byte gfile2.byte tools.byte algogen.byte test.byte
+
+    ./test.byte
 
 ## Usage
 
