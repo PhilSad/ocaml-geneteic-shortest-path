@@ -1,0 +1,11 @@
+%% Test graph #1
+
+%% Nodes
+
+n 88 209     % This is node #0, with its coordinates (which are not used by the algorithms).
+n 408 183
+n 269 491
+n 261 297
+n 401 394
+n 535 294    % This is node #5.
+
