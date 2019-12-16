@@ -162,7 +162,7 @@ let max_pop pop =
 let print_indiv indiv = 
   let () = Printf.printf "Meilleur individu :" in
   let () = List.iter (Printf.printf "%d | ") indiv.chem in
-  Printf.printf "Distance = %f" (div 1. indiv.fit)
+  Printf.printf "\nDistance = %f\n%!" (div 1. indiv.fit)
 
 let genetic_algo graph nb_pop tx_elitisme tx_iradiation nb_generation =
   let population = paths_to_indivs graph (n_random_path graph nb_pop) in
